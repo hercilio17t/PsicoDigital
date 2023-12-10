@@ -1,0 +1,171 @@
+<!-- Adicione a linha abaixo ao início do seu arquivo HTML para carregar a imagem -->
+<img src="/static/ufrpe.jpg" alt="Logo" class="logo" style="display: none;">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cadastro</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        form {
+            width: 100%;
+            max-width: 400px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="radio"] {
+            display: none; /* Oculta os botões de rádio padrão */
+        }
+
+        .role-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .role-group input[type="radio"] + label:before {
+            content: '';
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #2196F3; /* Azul */
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .role-group input[type="radio"]:checked + label:before {
+            background-color: #2196F3; /* Azul */
+        }
+
+        .role-group input[type="radio"] + label {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .role-group input[type="radio"]:checked + label {
+            color: #2196F3; /* Azul */
+        }
+
+        .role-group input[type="radio"]:checked + label:before {
+            content: '\2022'; /* Cria um ponto sólido */
+            font-size: 30px;
+            color: #fff;
+            position: absolute;
+            top: 50%;
+            left: 5px; /* Ajustado para o início da palavra */
+            transform: translate(0, -50%);
+        }
+
+        button {
+            background-color: #2196F3; /* Azul */
+            color: #fff;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            display: block;
+        }
+
+        .logo {
+            width: 200px; /* Ajuste o tamanho conforme necessário */
+            height: auto;
+            margin-bottom: 10px;
+            display: block; /* Exibe a imagem */
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+</head>
+<body>
+    <form action="/submit/" method="post" id="formCadastro">
+        <!-- Adicione a linha abaixo para exibir a imagem -->
+        <img src="/static/ufrpe.jpg" alt="Logo" class="logo">
+
+        <label for="email">Email Institucional:</label>
+        <input type="email" id="email" name="email" required>
+    
+        <label for="cpf">CPF:</label>
+        <input type="text" id="cpf" name="cpf" pattern="\d{11}" required title="Digite apenas os números do CPF (11 dígitos)">
+    
+        <div class="role-group">
+            <input type="radio" id="aluno" name="role" value="aluno" required>
+            <label for="aluno">Aluno</label>
+    
+            <input type="radio" id="psicologo" name="role" value="psicologo" required>
+            <label for="psicologo">Psicólogo</label>
+        </div>
+    
+        <!-- Adiciona campos de senha se a opção "psicologo" for selecionada -->
+        <div id="psicologo_fields" style="display: none;">
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+    
+        <button type="submit">Enviar</button>
+    </form>
+    
+    <script>
+        var psicologoFields = document.getElementById('psicologo_fields');
+        var alunoRadio = document.getElementById('aluno');
+        var psicologoRadio = document.getElementById('psicologo');
+    
+        alunoRadio.addEventListener('change', function() {
+            psicologoFields.style.display = 'none';
+        });
+    
+        psicologoRadio.addEventListener('change', function() {
+            psicologoFields.style.display = 'block';
+        });
+    
+        document.getElementById('formCadastro').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            var role = document.querySelector('input[name="role"]:checked').value;
+    
+            if (role === 'aluno') {
+                window.location.href = "/success-aluno";
+            } else if (role === 'psicologo') {
+                window.location.href = "/success-psicologo";
+            }
+        });
+    </script>
+</body>
+</html>
