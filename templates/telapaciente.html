@@ -1,0 +1,49 @@
+<!-- dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard do Paciente</title>
+    <!-- Adicione links para folhas de estilo CSS, se necessário -->
+</head>
+<body>
+    <h1>Dashboard do Paciente</h1>
+
+    <h2>Bem-vindo, {{ user.email }}!</h2>
+
+    <h3>Agendamentos</h3>
+    <ul>
+        {% for appointment in appointments %}
+            <li>{{ appointment.datetime }} - {{ appointment.psychologist_email }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Histórico de Consultas</h3>
+    <ul>
+        {% for history_entry in history %}
+            <li>{{ history_entry.datetime }} - {{ history_entry.psychologist_email }} - {{ history_entry.outcome }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Horários Disponíveis de Outros Psicólogos</h3>
+    <ul>
+        {% for slot in available_slots %}
+            <li>{{ slot.datetime }} - {{ slot.psychologist_email }} - <a href="/schedule-appointment?psychologist_email={{ slot.psychologist_email }}&datetime={{ slot.datetime }}">Agendar Consulta</a></li>
+        {% endfor %}
+    </ul>
+
+    <h3>Agendar Nova Consulta</h3>
+    <form method="post" action="/schedule-appointment">
+        <label for="psychologist_email">Psicólogo:</label>
+        <input type="email" name="psychologist_email" required><br>
+        <label for="datetime">Data e Hora:</label>
+        <input type="datetime-local" name="datetime" required><br>
+        <button type="submit">Agendar Consulta</button>
+    </form>
+
+    <br>
+    <a href="/">Voltar à Página Inicial</a>
+</body>
+</html>
